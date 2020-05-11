@@ -1,3 +1,23 @@
 body {
-    background-color: aqua;
+
+}
+
+.board {
+    background-color: #11557C;
+    width: 600px;
+    height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: auto;
+    padding: 20px 10px 10px 10px;
+
+}
+
+.board .cell {
+    width: 70px;
+    height: 70px;
+    /*background: url("");*/
+    background-size: 70px 70px;
+    border-radius: 25px;
 }
