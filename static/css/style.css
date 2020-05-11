@@ -1,9 +1,11 @@
 body {
+    background: url("/static/images/website_background.jpg");
+    background-size: cover;
 
 }
 
 .board {
-    background-color: #11557C;
+    background-color: #A5D6D9;
     width: 600px;
     height: 600px;
     display: flex;
@@ -17,7 +19,32 @@ body {
 .board .cell {
     width: 70px;
     height: 70px;
-    /*background: url("");*/
     background-size: 70px 70px;
     border-radius: 25px;
 }
+
+.Laci {
+    background: url("/static/images/Laci.png");
+    ;
+}
+
+.Adam {
+    background: url("/static/images/Adam.png");
+}
+
+.Agi {
+    background: url("/static/images/Agi.png");
+}
+
+.Bence {
+    background: url("/static/images/Bence.png");
+}
+
+.Gabor {
+    background: url("/static/images/Gabor.png");
+}
+
+.Reka {
+    background: url("/static/images/Reka.png");
+}
+
