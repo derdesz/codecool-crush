@@ -1,11 +1,11 @@
 body {
-    background: url("/static/images/website_background.jpg");
-    background-size: cover;
+    /*background: url("/static/images/website_background2.jpg");
+    background-size: cover;*/
 
 }
 
 .board {
-    background-color: #A5D6D9;
+    background-color: pink;
     width: 600px;
     height: 600px;
     display: flex;
@@ -13,6 +13,7 @@ body {
     justify-content: space-evenly;
     margin: auto;
     padding: 20px 10px 10px 10px;
+    ;
 
 }
 

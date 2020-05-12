@@ -10,6 +10,7 @@ let basicCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam'];
 
 initGame();
 
+
 function initGame() {
     createBoard();
     // Your game can start here, but define separate functions, don't write everything in here :)
@@ -24,7 +25,6 @@ function createBoard() {
         let candyType = basicCandies[randomNumber];
         cell.classList.add(candyType);
         board.appendChild(cell);
-
 
     }
 }
