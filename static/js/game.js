@@ -4,7 +4,8 @@ let width = 8;
 //    "url('/static/images/Gabor.png')", "url('/static/images/Laci.png')", "url('/static/images/Reka.png')" ]
 
 let basicCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam'];
-let cells = []
+let allCandies = basicCandies;
+let cells = [];
 initGame();
 
 
@@ -16,12 +17,12 @@ function initGame() {
 
 function createBoard() {
     for (let i = 0; i < width * width; i++) {
-        cell = document.createElement('div');
+        let cell = document.createElement('div');
         cell.className = 'cell';
         // cell.setAttribute('id', `c${i}`);
-        cell.dataset.indexNumber = i;
-        row = Math.floor(i / width);
-        col = i - (row * width);
+        // cell.dataset.indexNumber = i;
+        let row = Math.floor(i / width);
+        let col = i - (row * width);
         cell.dataset.row = row;
         cell.dataset.col = col;
         cell.setAttribute('draggable', true);
@@ -38,32 +39,54 @@ function createRandomCandy() {
     return randomNumber;
 }
 
+//Dragging a candy, swapping candies
+
+let draggedCandy = undefined;
+let candyToReplace = undefined;
+
 function dragStart(event) {
-    console.log('dragStart');
+    draggedCandy = this;
 }
 
 function dragEnd(event) {
-    console.log('dragEnd');
+
 }
 
 function dragEnter(event) {
     event.preventDefault();
-    console.log('dragEnter');
 }
 
 function dragOver(event) {
     event.preventDefault();
-    console.log('dragOver');
 }
 
 function dragLeave(event) {
     event.preventDefault();
-    console.log('dragLeave');
 }
 
 function dragDrop(event) {
     event.preventDefault();
-    console.log('dragDrop');
+    let draggedCandyType = findCandyType(draggedCandy);
+    let draggedCandyRow = parseInt(draggedCandy.dataset.row);
+    let draggedCandyCol = parseInt(draggedCandy.dataset.col);
+    let validCoordinates = findValidMoves(draggedCandyRow, draggedCandyCol);
+    candyToReplace = this;
+    let candyToReplaceType = findCandyType(candyToReplace);
+    let candyToReplaceRow = parseInt(candyToReplace.dataset.row);
+    let candyToReplaceCol = parseInt(candyToReplace.dataset.col);
+    let isValidMove = false;
+    for (let coordinates of validCoordinates){
+        if (JSON.stringify([candyToReplaceRow, candyToReplaceCol]) === JSON.stringify(coordinates)){
+            isValidMove = true;
+        }
+    }
+    candyToReplaceClasses = candyToReplace.classList;
+    if (!candyToReplaceClasses.contains(draggedCandyType) && !candyToReplaceClasses.contains('empty') && isValidMove){
+        candyToReplace.classList.remove(candyToReplaceType);
+        candyToReplace.classList.add(draggedCandyType);
+        draggedCandy.classList.remove(draggedCandyType);
+        draggedCandy.classList.add(candyToReplaceType);
+    }
 }
 
 function addDraggingFunctionForCells() {
@@ -77,6 +100,41 @@ function addDraggingFunctionForCells() {
     }
 }
 
-function movingCandies() {
+function findCandyType(candyElement){
+    let candyClasses = candyElement.classList;
+    let candyType = undefined;
+    for (let type of allCandies){
+        if (candyClasses.contains(type)){
+            candyType = type
+        }
+    }
+    return candyType;
+}
+
+function findValidMoves(row, col){
+    let validIndexValues = [];
+    for (let i = 0; i < width; i++){
+        validIndexValues.push(i)
+    }
+
+    let validCoordinates = [];
+    //valid moves in same column
+    for (let i = row -1; i < row + 2; i += 2){
+        if (validIndexValues.includes(i) && validIndexValues.includes(col)){
+            let validCoordinate = [i, col];
+            validCoordinates.push(validCoordinate);
+            }
+        }
+    //valid moves in same row
+    for (let j = col -1; j < col + 2; j += 2){
+        if (validIndexValues.includes(j) && validIndexValues.includes(row)){
+            let validCoordinate = [row, j];
+            validCoordinates.push(validCoordinate);
+            }
+        }
+    return validCoordinates;
+}
+
+function checkRowsOfThree(){
 
 }
