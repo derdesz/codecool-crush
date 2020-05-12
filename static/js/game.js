@@ -13,6 +13,7 @@ function initGame() {
     createBoard();
     addDraggingFunctionForCells();
     setInterval(checkRowsOfThree, 100);
+    setInterval(checkColsOfThree, 100)
     // Your game can start here, but define separate functions, don't write everything in here :)
 }
 
@@ -161,10 +162,37 @@ function checkRowsOfThree() {
                     for (let i = indexNumber; i < indexNumber + 3; i++) {
                         cells[i].classList.add('empty')
                         cells[i].classList.remove(currentCandyType)
-                        console.log(cells)
                     }
                 }
             }
+        }
+    }
+}
+
+function checkColsOfThree() {
+    for (let i = 0; i < width - 2; i++) {
+        for (let j = 0; j < width; j++) {
+            let indexNumber = calculateIndexNumber(i, j);
+            if (!cells[indexNumber].classList.contains('empty')) {
+                let currentCandyType = findCandyType(cells[indexNumber]);
+                let colOfThree = [cells[indexNumber], cells[indexNumber + width], cells[indexNumber + width * 2]];
+
+                function tester(cell) {
+                    let whichCandyType = findCandyType(cell);
+                    if (whichCandyType === currentCandyType) {
+                        return true;
+                    }
+                }
+
+                let isMatch = colOfThree.every(tester);
+                if (isMatch) {
+                    for (let i = indexNumber; i <= indexNumber + width * 2; i = i + width) {
+                        cells[i].classList.add('empty');
+                        cells[i].classList.remove(currentCandyType)
+                    }
+                }
+            }
+
         }
     }
 }
