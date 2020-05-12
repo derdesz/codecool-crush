@@ -12,6 +12,7 @@ initGame();
 function initGame() {
     createBoard();
     addDraggingFunctionForCells();
+    setInterval(checkRowsOfThree, 100);
     // Your game can start here, but define separate functions, don't write everything in here :)
 }
 
@@ -75,13 +76,13 @@ function dragDrop(event) {
     let candyToReplaceRow = parseInt(candyToReplace.dataset.row);
     let candyToReplaceCol = parseInt(candyToReplace.dataset.col);
     let isValidMove = false;
-    for (let coordinates of validCoordinates){
-        if (JSON.stringify([candyToReplaceRow, candyToReplaceCol]) === JSON.stringify(coordinates)){
+    for (let coordinates of validCoordinates) {
+        if (JSON.stringify([candyToReplaceRow, candyToReplaceCol]) === JSON.stringify(coordinates)) {
             isValidMove = true;
         }
     }
     candyToReplaceClasses = candyToReplace.classList;
-    if (!candyToReplaceClasses.contains(draggedCandyType) && !candyToReplaceClasses.contains('empty') && isValidMove){
+    if (!candyToReplaceClasses.contains(draggedCandyType) && !candyToReplaceClasses.contains('empty') && isValidMove) {
         candyToReplace.classList.remove(candyToReplaceType);
         candyToReplace.classList.add(draggedCandyType);
         draggedCandy.classList.remove(draggedCandyType);
@@ -100,41 +101,70 @@ function addDraggingFunctionForCells() {
     }
 }
 
-function findCandyType(candyElement){
+function findCandyType(candyElement) {
     let candyClasses = candyElement.classList;
     let candyType = undefined;
-    for (let type of allCandies){
-        if (candyClasses.contains(type)){
+    for (let type of allCandies) {
+        if (candyClasses.contains(type)) {
             candyType = type
         }
     }
     return candyType;
 }
 
-function findValidMoves(row, col){
+function findValidMoves(row, col) {
     let validIndexValues = [];
-    for (let i = 0; i < width; i++){
+    for (let i = 0; i < width; i++) {
         validIndexValues.push(i)
     }
 
     let validCoordinates = [];
     //valid moves in same column
-    for (let i = row -1; i < row + 2; i += 2){
-        if (validIndexValues.includes(i) && validIndexValues.includes(col)){
+    for (let i = row - 1; i < row + 2; i += 2) {
+        if (validIndexValues.includes(i) && validIndexValues.includes(col)) {
             let validCoordinate = [i, col];
             validCoordinates.push(validCoordinate);
-            }
         }
+    }
     //valid moves in same row
-    for (let j = col -1; j < col + 2; j += 2){
-        if (validIndexValues.includes(j) && validIndexValues.includes(row)){
+    for (let j = col - 1; j < col + 2; j += 2) {
+        if (validIndexValues.includes(j) && validIndexValues.includes(row)) {
             let validCoordinate = [row, j];
             validCoordinates.push(validCoordinate);
-            }
         }
+    }
     return validCoordinates;
 }
 
-function checkRowsOfThree(){
+function calculateIndexNumber(row, col) {
+    return row * width + col
+}
 
+
+function checkRowsOfThree() {
+    for (let i = 0; i < width; i++) {
+        for (let j = 0; j < width - 2; j++) {
+            let indexNumber = calculateIndexNumber(i, j)
+            if (!cells[indexNumber].classList.contains('empty')) {
+                let currentCandyType = findCandyType(cells[indexNumber])
+                let rowOfThree = [cells[indexNumber], cells[indexNumber + 1], cells[indexNumber + 2]]
+
+                function tester(cell) {
+                    let whichCandyType = findCandyType(cell)
+                    if (whichCandyType === currentCandyType) {
+                        return true
+                    }
+                }
+
+                let isMatch = rowOfThree.every(tester)
+                if (isMatch) {
+                    for (let i = indexNumber; i < indexNumber + 3; i++) {
+                        cells[i].classList.add('empty')
+                        cells[i].classList.remove(currentCandyType)
+                        console.log(cells)
+                    }
+                }
+            }
+        }
+    }
 }
