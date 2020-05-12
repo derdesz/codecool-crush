@@ -12,8 +12,7 @@ initGame();
 function initGame() {
     createBoard();
     addDraggingFunctionForCells();
-    setInterval(checkRowsOfThree, 100);
-    setInterval(checkColsOfThree, 100)
+    setInterval(updateBoard, 100);
     // Your game can start here, but define separate functions, don't write everything in here :)
 }
 
@@ -141,27 +140,27 @@ function calculateIndexNumber(row, col) {
     return row * width + col
 }
 
-
+//Check for matching candies
 function checkRowsOfThree() {
     for (let i = 0; i < width; i++) {
         for (let j = 0; j < width - 2; j++) {
-            let indexNumber = calculateIndexNumber(i, j)
+            let indexNumber = calculateIndexNumber(i, j);
             if (!cells[indexNumber].classList.contains('empty')) {
-                let currentCandyType = findCandyType(cells[indexNumber])
-                let rowOfThree = [cells[indexNumber], cells[indexNumber + 1], cells[indexNumber + 2]]
+                let currentCandyType = findCandyType(cells[indexNumber]);
+                let rowOfThree = [cells[indexNumber], cells[indexNumber + 1], cells[indexNumber + 2]];
 
                 function tester(cell) {
-                    let whichCandyType = findCandyType(cell)
+                    let whichCandyType = findCandyType(cell);
                     if (whichCandyType === currentCandyType) {
                         return true
                     }
                 }
 
-                let isMatch = rowOfThree.every(tester)
+                let isMatch = rowOfThree.every(tester);
                 if (isMatch) {
                     for (let i = indexNumber; i < indexNumber + 3; i++) {
-                        cells[i].classList.add('empty')
-                        cells[i].classList.remove(currentCandyType)
+                        cells[i].classList.add('empty');
+                        cells[i].classList.remove(currentCandyType);
                     }
                 }
             }
@@ -188,11 +187,39 @@ function checkColsOfThree() {
                 if (isMatch) {
                     for (let i = indexNumber; i <= indexNumber + width * 2; i = i + width) {
                         cells[i].classList.add('empty');
-                        cells[i].classList.remove(currentCandyType)
+                        cells[i].classList.remove(currentCandyType);
                     }
                 }
             }
-
         }
     }
+}
+
+// Move down candies
+function moveDownCandies() {
+    for (let i = width - 1; i > 0; i--){
+        for (let j = 0; j < width; j++){
+            let indexNumber = calculateIndexNumber(i, j);
+            if (cells[indexNumber].classList.contains('empty')){
+                for (let k = i - 1; k >= 0; k--){
+                    let aboveCandyIndexNumber = calculateIndexNumber(k, j);
+                    if (!cells[aboveCandyIndexNumber].classList.contains('empty')){
+                        cells[indexNumber].classList.remove('empty');
+                        let aboveCandyType = findCandyType(cells[aboveCandyIndexNumber]);
+                        cells[indexNumber].classList.add(aboveCandyType);
+
+                        cells[aboveCandyIndexNumber].classList.add('empty');
+                        cells[aboveCandyIndexNumber].classList.remove(aboveCandyType);
+                        break
+                    }
+                }
+            }
+        }
+    }
+}
+
+function updateBoard(){
+    checkRowsOfThree();
+    checkColsOfThree();
+    moveDownCandies();
 }
