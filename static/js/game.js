@@ -3,9 +3,6 @@ let width = 8;
 //let basicCandies = ["url('/static/images/Adam.png')", "url('/static/images/Agi.png')", "url('/static/images/Bence.png')",
 //    "url('/static/images/Gabor.png')", "url('/static/images/Laci.png')", "url('/static/images/Reka.png')" ]
 
-//let horizontalCandies = ["url('/static/images/Adam.png')", "url('/static/images/Agi.png')", "url('/static/images/Bence.png')",
-  //  "url('/static/images/Gabor.png')", "url('/static/images/Laci.png')", "url('/static/images/Reka.png')" ]
-
 let basicCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam'];
 
 initGame();
@@ -20,7 +17,13 @@ function createBoard() {
     for (let i=0; i < width*width; i++) {
         cell = document.createElement('div');
         cell.className = 'cell';
-        cell.setAttribute('id', `c${i}`);
+        // cell.setAttribute('id', `c${i}`);
+        cell.dataset.indexNumber = i;
+        row = Math.floor(i / width);
+        col = i - (row * width);
+        cell.dataset.row = row;
+        cell.dataset.col = col;
+        cell.setAttribute('draggable', true);
         let randomNumber = createRandomCandy();
         let candyType = basicCandies[randomNumber];
         cell.classList.add(candyType);
