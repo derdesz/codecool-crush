@@ -1,7 +1,8 @@
 body {
-    /*background: url("/static/images/website_background2.jpg");
-    background-size: cover;*/
-
+    background: url("/static/images/website_background2.jpg");
+    background-size: cover;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .board {
@@ -49,3 +50,11 @@ body {
     background: url("/static/images/Reka.png");
 }
 
+.scores p {
+    background-color: lightblue;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 50px;
+    justify-content: stretch;
+
+}
