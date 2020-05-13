@@ -2,16 +2,20 @@ let board = document.querySelector(".board");
 let width = 8;
 //let basicCandies = ["url('/static/images/Adam.png')", "url('/static/images/Agi.png')", "url('/static/images/Bence.png')",
 //    "url('/static/images/Gabor.png')", "url('/static/images/Laci.png')", "url('/static/images/Reka.png')" ]
-
+let isGameStarted = false;
 let basicCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam'];
 let allCandies = basicCandies;
 let cells = [];
+let scores = 0;
+let startButton = document.querySelector('.start');
+
+
 initGame();
 
 
 function initGame() {
+    startButton.addEventListener('click', startGame);
     createBoard();
-    addDraggingFunctionForCells();
     setInterval(updateBoard, 100);
     // Your game can start here, but define separate functions, don't write everything in here :)
 }
@@ -24,7 +28,6 @@ function createBoard() {
         let col = i - (row * width);
         cell.dataset.row = row;
         cell.dataset.col = col;
-        cell.setAttribute('draggable', true);
         let randomNumber = createRandomCandy();
         let candyType = basicCandies[randomNumber];
         cell.classList.add(candyType);
@@ -159,6 +162,10 @@ function checkRowsOfThree() {
                     for (let i = indexNumber; i < indexNumber + 3; i++) {
                         cells[i].classList.add('empty');
                         cells[i].classList.remove(currentCandyType);
+                        if (isGameStarted) {
+                            scores = scores + 10;
+                            document.getElementById('score-counter').innerText = scores;
+                        }
                     }
                 }
             }
@@ -186,6 +193,10 @@ function checkColsOfThree() {
                     for (let i = indexNumber; i <= indexNumber + width * 2; i = i + width) {
                         cells[i].classList.add('empty');
                         cells[i].classList.remove(currentCandyType);
+                        if (isGameStarted) {
+                            scores = scores + 10;
+                            document.getElementById('score-counter').innerText = scores;
+                        }
                     }
                 }
             }
@@ -195,13 +206,13 @@ function checkColsOfThree() {
 
 // Move down candies
 function moveDownCandies() {
-    for (let i = width - 1; i > 0; i--){
-        for (let j = 0; j < width; j++){
+    for (let i = width - 1; i > 0; i--) {
+        for (let j = 0; j < width; j++) {
             let indexNumber = calculateIndexNumber(i, j);
-            if (cells[indexNumber].classList.contains('empty')){
-                for (let k = i - 1; k >= 0; k--){
+            if (cells[indexNumber].classList.contains('empty')) {
+                for (let k = i - 1; k >= 0; k--) {
                     let aboveCandyIndexNumber = calculateIndexNumber(k, j);
-                    if (!cells[aboveCandyIndexNumber].classList.contains('empty')){
+                    if (!cells[aboveCandyIndexNumber].classList.contains('empty')) {
                         cells[indexNumber].classList.remove('empty');
                         let aboveCandyType = findCandyType(cells[aboveCandyIndexNumber]);
                         cells[indexNumber].classList.add(aboveCandyType);
@@ -217,7 +228,7 @@ function moveDownCandies() {
 }
 
 function generateNewCandies() {
-    for (let i = cells.length - 1; i >=0; i--) {
+    for (let i = cells.length - 1; i >= 0; i--) {
         if (cells[i].classList.contains('empty')) {
             let randomCandy = createRandomCandy();
             let randomCandyType = basicCandies[randomCandy]
@@ -227,8 +238,15 @@ function generateNewCandies() {
     }
 }
 
+function startGame() {
+    isGameStarted = true;
+    addDraggingFunctionForCells();
+    for (let cell of cells) {
+        cell.setAttribute('draggable', true);
+    }
+}
 
-function updateBoard(){
+function updateBoard() {
     checkRowsOfThree();
     checkColsOfThree();
     moveDownCandies();
