@@ -5,14 +5,35 @@ body {
     justify-content: space-evenly;
 }
 
+.game-info-fields {
+    /*display: inline-flex;*/
+    float: left;
+    /*margin: 500px;*/
+    background-color: #E6C8F3;
+    margin-top: 10em;
+    border-style: ridge;
+    border-width: 5px;
+    border-color: darksalmon;
+}
+
+.game-info-fields > * {
+    margin: 30px;
+    /*margin-left: 50px;*/
+
+}
+
 .board {
     background-color: pink;
+    border-style: ridge;
+    border-width: 5px;
+    border-color: darksalmon;
     width: 600px;
     height: 600px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    margin: auto;
+    margin-top: 50px;
+    margin-right: 120px;
     padding: 20px 10px 10px 10px;
     ;
 
@@ -57,4 +78,36 @@ body {
     max-width: 50px;
     justify-content: stretch;
 
+}
+
+#start-button {
+    box-shadow: rgb(239, 220, 251) 0px 1px 0px 0px inset;
+    background: linear-gradient(rgb(173, 74, 216) 5%, rgb(188, 128, 234) 100%) rgb(223, 189, 250);
+    border-radius: 6px;
+    border: 1px solid rgb(197, 132, 243);
+    display: inline-block;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    font-family: Arial, serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: rgb(151, 82, 204) 0px 1px 0px;
+}
+
+#new-game-button {
+    box-shadow: rgb(179, 129, 164) 0px 1px 0px 0px inset;
+    background: linear-gradient(rgb(255, 10, 177) 5%, rgb(244, 163, 205) 100%) rgb(255, 91, 176);
+    border-radius: 6px;
+    border: 1px solid rgb(238, 30, 181);
+    display: inline-block;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    font-family: Arial, serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: rgb(199, 0, 103) 0px 1px 0px;
 }

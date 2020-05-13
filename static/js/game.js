@@ -7,7 +7,7 @@ let basicCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam'];
 let allCandies = basicCandies;
 let cells = [];
 let scores = 0;
-let startButton = document.querySelector('.start');
+let startButton = document.querySelector('#start-button');
 let startTime = 60;
 let counter = undefined;
 let setIntervalForBoard = undefined;
@@ -90,15 +90,15 @@ function dragDrop(event) {
         candyToReplace.classList.add(draggedCandyType);
         draggedCandy.classList.remove(draggedCandyType);
         draggedCandy.classList.add(candyToReplaceType);
-    }
-    if (checkRowsOfThree() || checkColsOfThree()){        //add the others!!
-    } else {
-        candyToReplace.classList.add(candyToReplaceType);
-        candyToReplace.classList.remove(draggedCandyType);
-        draggedCandy.classList.add(draggedCandyType);
-        draggedCandy.classList.remove(candyToReplaceType);
-    }
 
+        if (checkRowsOfThree() || checkColsOfThree()){        //add the others!!
+        } else {
+            candyToReplace.classList.add(candyToReplaceType);
+            candyToReplace.classList.remove(draggedCandyType);
+            draggedCandy.classList.add(draggedCandyType);
+            draggedCandy.classList.remove(candyToReplaceType);
+        }
+    }
 }
 
 function addDraggingFunctionForCells() {
