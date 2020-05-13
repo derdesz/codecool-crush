@@ -8,9 +8,9 @@ let allCandies = basicCandies;
 let cells = [];
 let scores = 0;
 let startButton = document.querySelector('.start');
-let startTime = 10;
-let counter = undefined
-let setIntervalForBoard = undefined
+let startTime = 60;
+let counter = undefined;
+let setIntervalForBoard = undefined;
 
 initGame();
 
@@ -18,7 +18,7 @@ initGame();
 function initGame() {
     startButton.addEventListener('click', startGame);
     createBoard();
-    setIntervalForBoard =  window.setInterval(updateBoard, 100);
+    setIntervalForBoard = window.setInterval(updateBoard, 100);
     // Your game can start here, but define separate functions, don't write everything in here :)
 }
 
@@ -70,11 +70,11 @@ function dragLeave(event) {
 
 function dragDrop(event) {
     event.preventDefault();
+    candyToReplace = this;
     let draggedCandyType = findCandyType(draggedCandy);
     let draggedCandyRow = parseInt(draggedCandy.dataset.row);
     let draggedCandyCol = parseInt(draggedCandy.dataset.col);
     let validCoordinates = findValidMoves(draggedCandyRow, draggedCandyCol);
-    candyToReplace = this;
     let candyToReplaceType = findCandyType(candyToReplace);
     let candyToReplaceRow = parseInt(candyToReplace.dataset.row);
     let candyToReplaceCol = parseInt(candyToReplace.dataset.col);
@@ -91,6 +91,14 @@ function dragDrop(event) {
         draggedCandy.classList.remove(draggedCandyType);
         draggedCandy.classList.add(candyToReplaceType);
     }
+    if (checkRowsOfThree() || checkColsOfThree()){        //add the others!!
+    } else {
+        candyToReplace.classList.add(candyToReplaceType);
+        candyToReplace.classList.remove(draggedCandyType);
+        draggedCandy.classList.add(draggedCandyType);
+        draggedCandy.classList.remove(candyToReplaceType);
+    }
+
 }
 
 function addDraggingFunctionForCells() {
@@ -145,6 +153,7 @@ function calculateIndexNumber(row, col) {
 
 //Check for matching candies
 function checkRowsOfThree() {
+    let matchWasFound = false;
     for (let i = 0; i < width; i++) {
         for (let j = 0; j < width - 2; j++) {
             let indexNumber = calculateIndexNumber(i, j);
@@ -160,113 +169,129 @@ function checkRowsOfThree() {
                 }
 
                 let isMatch = rowOfThree.every(tester);
+
                 if (isMatch) {
-                    for (let i = indexNumber; i < indexNumber + 3; i++) {
-                        cells[i].classList.add('empty');
-                        cells[i].classList.remove(currentCandyType);
-                        if (isGameStarted) {
-                            scores = scores + 10;
-                            document.getElementById('score-counter').innerText = scores;
-                        }
-                    }
+                    clearRows(indexNumber, 3, currentCandyType);
+                    matchWasFound = true;
                 }
             }
         }
     }
+    return matchWasFound;
 }
 
-function checkColsOfThree() {
-    for (let i = 0; i < width - 2; i++) {
-        for (let j = 0; j < width; j++) {
-            let indexNumber = calculateIndexNumber(i, j);
-            if (!cells[indexNumber].classList.contains('empty')) {
-                let currentCandyType = findCandyType(cells[indexNumber]);
-                let colOfThree = [cells[indexNumber], cells[indexNumber + width], cells[indexNumber + width * 2]];
+function clearRows(startIndex, length, candyTypeToClear) {
+    for (let i = startIndex; i < startIndex + length; i++) {
+        cells[i].classList.add('empty');
+        cells[i].classList.remove(candyTypeToClear);
+        if (isGameStarted) {
+            scores = scores + 10;
+            document.getElementById('score-counter').innerText = scores;
+        }
+    }
+}
 
-                function tester(cell) {
-                    let whichCandyType = findCandyType(cell);
-                    if (whichCandyType === currentCandyType) {
-                        return true;
-                    }
-                }
+function clearCols(startIndex, length, candyTypeToClear) {
+for (let i = startIndex; i <= startIndex + width * (length - 1); i = i + width) {
+        cells[i].classList.add('empty');
+        cells[i].classList.remove(candyTypeToClear);
+        if (isGameStarted) {
+            scores = scores + 10;
+            document.getElementById('score-counter').innerText = scores;
+        }
+    }
+}
 
-                let isMatch = colOfThree.every(tester);
-                if (isMatch) {
-                    for (let i = indexNumber; i <= indexNumber + width * 2; i = i + width) {
-                        cells[i].classList.add('empty');
-                        cells[i].classList.remove(currentCandyType);
-                        if (isGameStarted) {
-                            scores = scores + 10;
-                            document.getElementById('score-counter').innerText = scores;
+
+    function checkColsOfThree() {
+    let matchWasFound = false;
+        for (let i = 0; i < width - 2; i++) {
+            for (let j = 0; j < width; j++) {
+                let indexNumber = calculateIndexNumber(i, j);
+                if (!cells[indexNumber].classList.contains('empty')) {
+                    let currentCandyType = findCandyType(cells[indexNumber]);
+                    let colOfThree = [cells[indexNumber], cells[indexNumber + width], cells[indexNumber + width * 2]];
+
+                    function tester(cell) {
+                        let whichCandyType = findCandyType(cell);
+                        if (whichCandyType === currentCandyType) {
+                            return true;
                         }
+                    }
+
+                    let isMatch = colOfThree.every(tester);
+                    if (isMatch) {
+                        clearCols(indexNumber, 3, currentCandyType);
+                        matchWasFound = true;
                     }
                 }
             }
         }
+        return matchWasFound;
     }
-}
 
 // Move down candies
-function moveDownCandies() {
-    for (let i = width - 1; i > 0; i--) {
-        for (let j = 0; j < width; j++) {
-            let indexNumber = calculateIndexNumber(i, j);
-            if (cells[indexNumber].classList.contains('empty')) {
-                for (let k = i - 1; k >= 0; k--) {
-                    let aboveCandyIndexNumber = calculateIndexNumber(k, j);
-                    if (!cells[aboveCandyIndexNumber].classList.contains('empty')) {
-                        cells[indexNumber].classList.remove('empty');
-                        let aboveCandyType = findCandyType(cells[aboveCandyIndexNumber]);
-                        cells[indexNumber].classList.add(aboveCandyType);
+    function moveDownCandies() {
+        for (let i = width - 1; i > 0; i--) {
+            for (let j = 0; j < width; j++) {
+                let indexNumber = calculateIndexNumber(i, j);
+                if (cells[indexNumber].classList.contains('empty')) {
+                    for (let k = i - 1; k >= 0; k--) {
+                        let aboveCandyIndexNumber = calculateIndexNumber(k, j);
+                        if (!cells[aboveCandyIndexNumber].classList.contains('empty')) {
+                            cells[indexNumber].classList.remove('empty');
+                            let aboveCandyType = findCandyType(cells[aboveCandyIndexNumber]);
+                            cells[indexNumber].classList.add(aboveCandyType);
 
-                        cells[aboveCandyIndexNumber].classList.add('empty');
-                        cells[aboveCandyIndexNumber].classList.remove(aboveCandyType);
-                        break
+                            cells[aboveCandyIndexNumber].classList.add('empty');
+                            cells[aboveCandyIndexNumber].classList.remove(aboveCandyType);
+                            break
+                        }
                     }
                 }
             }
         }
     }
-}
 
-function generateNewCandies() {
-    for (let i = cells.length - 1; i >= 0; i--) {
-        if (cells[i].classList.contains('empty')) {
-            let randomCandy = createRandomCandy();
-            let randomCandyType = basicCandies[randomCandy]
-            cells[i].classList.remove('empty')
-            cells[i].classList.add(randomCandyType)
+    function generateNewCandies() {
+        for (let i = cells.length - 1; i >= 0; i--) {
+            if (cells[i].classList.contains('empty')) {
+                let randomCandy = createRandomCandy();
+                let randomCandyType = basicCandies[randomCandy];
+                cells[i].classList.remove('empty');
+                cells[i].classList.add(randomCandyType)
+            }
         }
     }
-}
 
-function startGame() {
-    isGameStarted = true;
-    addDraggingFunctionForCells();
-    for (let cell of cells) {
-        cell.setAttribute('draggable', true);
-    }
-    counter = window.setInterval(countDown, 1000)
-}
-
-function countDown() {
-    if (startTime > 0) {
-        startTime--
-        document.querySelector('.count-down').innerHTML = startTime
-    } else {
-        document.querySelector('.count-down').innerHTML = startTime
+    function startGame() {
+        isGameStarted = true;
+        addDraggingFunctionForCells();
         for (let cell of cells) {
-        cell.setAttribute('draggable', false);
+            cell.setAttribute('draggable', true);
+        }
+        counter = window.setInterval(countDown, 1000)
     }
-        clearInterval(counter);
-        alert(scores);
+
+    function countDown() {
+        if (startTime > 0) {
+            startTime--;
+            document.querySelector('.count-down').innerHTML = startTime
+        } else {
+            document.querySelector('.count-down').innerHTML = startTime;
+            for (let cell of cells) {
+                cell.setAttribute('draggable', false);
+            }
+            clearInterval(counter);
+            clearInterval(setIntervalForBoard);
+            alert(scores);
+        }
     }
-}
 
 
-function updateBoard() {
-    checkRowsOfThree();
-    checkColsOfThree();
-    moveDownCandies();
-    generateNewCandies();
-}
+    function updateBoard() {
+        checkRowsOfThree();
+        checkColsOfThree();
+        moveDownCandies();
+        generateNewCandies();
+    }
