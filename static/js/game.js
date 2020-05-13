@@ -20,8 +20,6 @@ function createBoard() {
     for (let i = 0; i < width * width; i++) {
         let cell = document.createElement('div');
         cell.className = 'cell';
-        // cell.setAttribute('id', `c${i}`);
-        // cell.dataset.indexNumber = i;
         let row = Math.floor(i / width);
         let col = i - (row * width);
         cell.dataset.row = row;
@@ -218,8 +216,21 @@ function moveDownCandies() {
     }
 }
 
+function generateNewCandies() {
+    for (let i = cells.length - 1; i >=0; i--) {
+        if (cells[i].classList.contains('empty')) {
+            let randomCandy = createRandomCandy();
+            let randomCandyType = basicCandies[randomCandy]
+            cells[i].classList.remove('empty')
+            cells[i].classList.add(randomCandyType)
+        }
+    }
+}
+
+
 function updateBoard(){
     checkRowsOfThree();
     checkColsOfThree();
     moveDownCandies();
+    generateNewCandies();
 }
