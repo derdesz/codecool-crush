@@ -8,7 +8,9 @@ let allCandies = basicCandies;
 let cells = [];
 let scores = 0;
 let startButton = document.querySelector('.start');
-
+let startTime = 10;
+let counter = undefined
+let setIntervalForBoard = undefined
 
 initGame();
 
@@ -16,7 +18,7 @@ initGame();
 function initGame() {
     startButton.addEventListener('click', startGame);
     createBoard();
-    setInterval(updateBoard, 100);
+    setIntervalForBoard =  window.setInterval(updateBoard, 100);
     // Your game can start here, but define separate functions, don't write everything in here :)
 }
 
@@ -244,7 +246,23 @@ function startGame() {
     for (let cell of cells) {
         cell.setAttribute('draggable', true);
     }
+    counter = window.setInterval(countDown, 1000)
 }
+
+function countDown() {
+    if (startTime > 0) {
+        startTime--
+        document.querySelector('.count-down').innerHTML = startTime
+    } else {
+        document.querySelector('.count-down').innerHTML = startTime
+        for (let cell of cells) {
+        cell.setAttribute('draggable', false);
+    }
+        clearInterval(counter);
+        alert(scores);
+    }
+}
+
 
 function updateBoard() {
     checkRowsOfThree();
