@@ -7,7 +7,7 @@ let allCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam', 'Codecool'];
 let cells = [];
 let scores = 0;
 let startButton = document.querySelector('#start-button');
-let startTime = 300;
+let startTime = 3000;
 let counter = undefined;
 let setIntervalForBoard = undefined;
 
@@ -231,6 +231,7 @@ function clearCols(startIndex, length) {
 
 //Check for matching rows/cols
 function checkForMatchingRow(numberOfMatchingCandies) {
+    //check for match
     let matchWasFound = false;
     for (let i = 0; i < width; i++) {
         for (let j = 0; j < width - numberOfMatchingCandies + 1; j++) {
@@ -250,14 +251,45 @@ function checkForMatchingRow(numberOfMatchingCandies) {
                 }
 
                 let isMatch = matchingRow.every(tester);
+                //if match was found
                 if (isMatch) {
+                    //check for striped candies in match
                     matchWasFound = true;
-                    clearRows(indexNumber, numberOfMatchingCandies);
-                    if (isGameStarted && numberOfMatchingCandies==4){
-                        cells[indexNumber].className = `cell ${currentCandyType}`;
-                        cells[indexNumber].dataset.subtype = 1;
-                    } else {
-                        //in case of matches of three
+                    let rowClear = false;
+                    let colClear = false;
+                    let rowToDelete = undefined;
+                    let colToDelete = undefined;
+
+
+                    for (let matchingCandy of matchingRow){
+                        let matchingCandySubtype = parseInt(matchingCandy.dataset.subtype);
+                        if (matchingCandySubtype == 0){
+                            //do nothing if basic candy
+                        } else if (matchingCandySubtype == 1){
+                            rowClear = true;
+                            rowToDelete = parseInt(matchingCandy.dataset.row);
+                        } else if (matchingCandySubtype == 2){
+                            colClear = true;
+                            colToDelete =parseInt(matchingCandy.dataset.col);
+                        }
+                    }
+
+                    if (rowClear){
+                        let startIndexDeleteRow = calculateIndexNumber(rowToDelete, 0);
+                        clearRows(startIndexDeleteRow, 8);
+                    }
+                    if (colClear){
+                        let startIndexDeleteCol = calculateIndexNumber(0, colToDelete);
+                        clearCols(startIndexDeleteCol, 8);
+                    }
+                    if (!rowClear && !colClear){
+                        clearRows(indexNumber, numberOfMatchingCandies);
+                        if (isGameStarted && numberOfMatchingCandies==4){
+                            cells[indexNumber].className = `cell ${currentCandyType}`;
+                            cells[indexNumber].dataset.subtype = 1;
+                        } else {
+                            //in case of matches of three
+                        }
                     }
                 }
             }
