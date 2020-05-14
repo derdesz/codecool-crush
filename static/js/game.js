@@ -94,7 +94,7 @@ function dragStart(event) {
 }
 
 function dragEnd(event) {
-
+    draggedCandy = undefined;
 }
 
 function dragEnter(event) {
@@ -149,6 +149,7 @@ function dragDrop(event) {
             draggedCandy.dataset.subtype = draggedCandySubtype;
         }
     }
+    candyToReplace = undefined;
 }
 
 function addDraggingFunctionForCells() {
@@ -284,8 +285,24 @@ function checkForMatchingRow(numberOfMatchingCandies) {
                     if (!rowClear && !colClear){
                         clearRows(indexNumber, numberOfMatchingCandies);
                         if (isGameStarted && numberOfMatchingCandies==4){
-                            cells[indexNumber].className = `cell ${currentCandyType}`;
-                            cells[indexNumber].dataset.subtype = 1;
+                            if (!candyToReplace){
+                                cells[indexNumber].className = `cell ${currentCandyType}`;
+                                cells[indexNumber].dataset.subtype = 1;
+                            } else {
+                                if (parseInt(candyToReplace.dataset.row) == i){
+                                    let stripedCandyRow = parseInt(candyToReplace.dataset.row);
+                                    let stripedCandyCol = parseInt(candyToReplace.dataset.col);
+                                    let stripedCandyIndexNumber = calculateIndexNumber(stripedCandyRow, stripedCandyCol);
+                                    cells[stripedCandyIndexNumber].className = `cell ${currentCandyType}`;
+                                    cells[stripedCandyIndexNumber].dataset.subtype = 1;
+                                } else {
+                                    let stripedCandyRow = parseInt(draggedCandy.dataset.row);
+                                    let stripedCandyCol = parseInt(draggedCandy.dataset.col);
+                                    let stripedCandyIndexNumber = calculateIndexNumber(stripedCandyRow, stripedCandyCol);
+                                    cells[stripedCandyIndexNumber].className = `cell ${currentCandyType}`;
+                                    cells[stripedCandyIndexNumber].dataset.subtype = 1;
+                                }
+                            }
                         } else {
                             //in case of matches of three nothing else happens
                         }
@@ -353,11 +370,27 @@ function checkForMatchingCol(numberOfMatchingCandies){
                     if (!rowClear && !colClear){
                         clearCols(indexNumber, numberOfMatchingCandies);
                         if (isGameStarted && numberOfMatchingCandies==4){
-                            cells[indexNumber].className = `cell ${currentCandyType}`;
-                            cells[indexNumber].dataset.subtype = 2;
-                        } else {
+                            if (!candyToReplace){
+                                cells[indexNumber].className = `cell ${currentCandyType}`;
+                                cells[indexNumber].dataset.subtype = 2;
+                                } else {
+                                    if (parseInt(candyToReplace.dataset.col) == j){
+                                        let stripedCandyRow = parseInt(candyToReplace.dataset.row);
+                                        let stripedCandyCol = parseInt(candyToReplace.dataset.col);
+                                        let stripedCandyIndexNumber = calculateIndexNumber(stripedCandyRow, stripedCandyCol);
+                                        cells[stripedCandyIndexNumber].className = `cell ${currentCandyType}`;
+                                        cells[stripedCandyIndexNumber].dataset.subtype = 2;
+                                    } else {
+                                        let stripedCandyRow = parseInt(draggedCandy.dataset.row);
+                                        let stripedCandyCol = parseInt(draggedCandy.dataset.col);
+                                        let stripedCandyIndexNumber = calculateIndexNumber(stripedCandyRow, stripedCandyCol);
+                                        cells[stripedCandyIndexNumber].className = `cell ${currentCandyType}`;
+                                        cells[stripedCandyIndexNumber].dataset.subtype = 2;
+                                    }
+                                }
+                            } else {
                             //in case of matches of three nothing else happens
-                        }
+                            }
                     }
 
 
