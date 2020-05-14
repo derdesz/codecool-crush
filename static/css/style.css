@@ -211,3 +211,8 @@ a {
 a:visited {
     color: white;
 }
+
+.Codecool[data-subtype="3"] {
+    background: url("/static/images/codecool.png");
+    background-size: 70px 70px;
+}
