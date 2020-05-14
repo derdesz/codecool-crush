@@ -7,7 +7,7 @@ let allCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam', 'Codecool'];
 let cells = [];
 let scores = 0;
 let startButton = document.querySelector('#start-button');
-let startTime = 3000;
+let startTime = 10;
 let counter = undefined;
 let setIntervalForBoard = undefined;
 
@@ -69,7 +69,7 @@ function countDown() {
         }
         clearInterval(counter);
         clearInterval(setIntervalForBoard);
-        alert(scores);
+        alert(`Your final score is: ${scores}`);
     }
 }
 

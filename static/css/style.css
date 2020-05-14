@@ -117,6 +117,42 @@ body {
     text-shadow: rgb(199, 0, 103) 0px 1px 0px;
 }
 
+.scores {
+    box-shadow: rgb(179, 129, 164) 0px 1px 0px 0px inset;
+    background: linear-gradient(rgb(163, 205, 244) 5%, rgb(112, 114, 244) 100%) rgb(255, 91, 176);
+    border-radius: 6px;
+    border: 1px solid rgb(154, 114, 143);
+    display: inline-block;
+    cursor: default;
+    color: rgb(255, 255, 255);
+    font-family: Arial, serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 20px 20px;
+    text-decoration: none;
+    text-shadow: rgb(199, 0, 103) 0px 1px 0px;
+    text-align: center;
+}
+
+.count-down {
+    box-shadow: rgb(179, 129, 164) 0px 1px 0px 0px inset;
+    background: linear-gradient(rgb(163, 205, 244) 5%, rgb(112, 114, 244) 100%) rgb(255, 91, 176);
+    border-radius: 6px;
+    border: 1px solid rgba(161, 105, 146, 0.38);
+    display: inline-block;
+    cursor: default;
+    color: rgb(255, 255, 255);
+    font-family: Arial, serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: rgb(199, 0, 103) 0px 1px 0px;
+    text-align: center;
+
+}
+
+
 .Laci[data-subtype="1"] {
     background: url("/static/images/Laci_vizszintes.png");
     background-size: 70px 70px;
