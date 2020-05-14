@@ -7,7 +7,7 @@ let allCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam', 'Codecool'];
 let cells = [];
 let scores = 0;
 let startButton = document.querySelector('#start-button');
-let startTime = 3000;
+let startTime = 180;
 let counter = undefined;
 let setIntervalForBoard = undefined;
 
@@ -63,6 +63,7 @@ function countDown() {
         startTime--;
         document.querySelector('.count-down').innerHTML = startTime
     } else {
+        document.getElementById('delicious').play();
         document.querySelector('.count-down').innerHTML = startTime;
         for (let cell of cells) {
             cell.setAttribute('draggable', false);
@@ -75,6 +76,8 @@ function countDown() {
 
 
 function updateBoard() {
+    checkForMatchingRow(5);
+    checkForMatchingCol(5);
     checkForMatchingRow(4);
     checkForMatchingCol(4);
     checkForMatchingRow(3);
@@ -110,6 +113,7 @@ function dragLeave(event) {
 }
 
 function dragDrop(event) {
+    document.getElementById('swish').play();
     event.preventDefault();
     candyToReplace = this;
     let draggedCandyType = findCandyType(draggedCandy);
@@ -133,14 +137,29 @@ function dragDrop(event) {
 
     candyToReplaceClasses = candyToReplace.classList;
 
+
+
     if (!candyToReplaceClasses.contains(draggedCandyType) && !candyToReplaceClasses.contains('empty') && isValidMove) {
         candyToReplace.className = `cell ${draggedCandyType}`;
         candyToReplace.dataset.subtype = draggedCandySubtype;
         draggedCandy.className = `cell ${candyToReplaceType}`;
         draggedCandy.dataset.subtype = candyToReplaceSubtype;
-
-        if (checkForMatchingCol(4) || checkForMatchingRow(4) || checkForMatchingRow(3)
-            || checkForMatchingCol(3)){        //add the others!!
+        if (draggedCandyType === 'Codecool') {
+            candyToReplace.className = 'cell empty';
+            candyToReplace.dataset.subtype = 0;
+            handleCodecoolCandy(candyToReplaceType);
+            candyToReplace = undefined;
+            return
+        }
+        if (candyToReplaceType === 'Codecool') {
+            draggedCandy.className = 'cell empty';
+            draggedCandy.dataset.subtype = 0;
+            handleCodecoolCandy(draggedCandyType);
+            candyToReplace = undefined;
+            return
+            }
+        if (checkForMatchingCol(5) || checkForMatchingRow(5) ||checkForMatchingCol(4)
+            || checkForMatchingRow(4) || checkForMatchingRow(3) || checkForMatchingCol(3)){
             //if match is found then swapping takes place, else switch back candies to original position
         } else {
             candyToReplace.className = `cell ${candyToReplaceType}`;
@@ -211,6 +230,9 @@ function clearRows(startIndex, length) {
         if (isGameStarted) {
             scores = scores + 10;
             document.getElementById('score-counter').innerText = scores;
+            if (scores % 200 === 0) {
+                document.getElementById('tasty').play();
+            }
         }
     }
 }
@@ -271,6 +293,37 @@ function checkForMatchingRow(numberOfMatchingCandies) {
                         }
                     }
 
+                    if (isGameStarted && numberOfMatchingCandies == 5) {
+                        clearRows(indexNumber,5);
+                        document.getElementById('sweet').play();
+                        if (!candyToReplace){
+                            cells[indexNumber].className = 'cell Codecool';
+                            cells[indexNumber].dataset.subtype = 3;
+                            return matchWasFound;
+                        } else {
+                            if (parseInt(candyToReplace.dataset.row) == i){
+                                let codecoolCandyRow = parseInt(candyToReplace.dataset.row);
+                                let codecoolCandyCol = parseInt(candyToReplace.dataset.col);
+                                let codecoolCandyIndexNumber = calculateIndexNumber(codecoolCandyRow, codecoolCandyCol);
+                                cells[codecoolCandyIndexNumber].className = 'cell Codecool';
+                                cells[codecoolCandyIndexNumber].dataset.subtype = 3;
+                                return matchWasFound;
+                            } else {
+                                let codecoolCandyRow = parseInt(draggedCandy.dataset.row);
+                                let codecoolCandyCol = parseInt(draggedCandy.dataset.col);
+                                let codecoolCandyIndexNumber = calculateIndexNumber(codecoolCandyRow, codecoolCandyCol);
+                                cells[codecoolCandyIndexNumber].className = 'cell Codecool';
+                                cells[codecoolCandyIndexNumber].dataset.subtype = 3;
+                                return matchWasFound;
+                            }
+                        }
+                    }
+
+
+
+
+
+
                     if (rowClear){
                         let startIndexDeleteRow = calculateIndexNumber(rowToDelete, 0);
                         clearRows(startIndexDeleteRow, 8);
@@ -280,8 +333,10 @@ function checkForMatchingRow(numberOfMatchingCandies) {
                         clearCols(startIndexDeleteCol, 8);
                         if (!rowClear){
                             clearRows(indexNumber, numberOfMatchingCandies);
+                            document.getElementById('sugar_crush').play();
                         }
                     }
+                    // no striped candies in match
                     if (!rowClear && !colClear){
                         clearRows(indexNumber, numberOfMatchingCandies);
                         if (isGameStarted && numberOfMatchingCandies==4){
@@ -356,9 +411,36 @@ function checkForMatchingCol(numberOfMatchingCandies){
                         }
                     }
 
+                    if (isGameStarted && numberOfMatchingCandies == 5) {
+                        clearCols(indexNumber,5);
+                        document.getElementById('sweet').play();
+                        if (!candyToReplace){
+                            cells[indexNumber].className = 'cell Codecool';
+                            cells[indexNumber].dataset.subtype = 3;
+                            return matchWasFound;
+                        } else {
+                            if (parseInt(candyToReplace.dataset.col) == j){
+                                let codecoolCandyRow = parseInt(candyToReplace.dataset.row);
+                                let codecoolCandyCol = parseInt(candyToReplace.dataset.col);
+                                let codecoolCandyIndexNumber = calculateIndexNumber(codecoolCandyRow, codecoolCandyCol);
+                                cells[codecoolCandyIndexNumber].className = 'cell Codecool';
+                                cells[codecoolCandyIndexNumber].dataset.subtype = 3;
+                                return matchWasFound;
+                            } else {
+                                let codecoolCandyRow = parseInt(draggedCandy.dataset.row);
+                                let codecoolCandyCol = parseInt(draggedCandy.dataset.col);
+                                let codecoolCandyIndexNumber = calculateIndexNumber(codecoolCandyRow, codecoolCandyCol);
+                                cells[codecoolCandyIndexNumber].className = 'cell Codecool';
+                                cells[codecoolCandyIndexNumber].dataset.subtype = 3;
+                                return matchWasFound;
+                            }
+                        }
+                    }
+
                     if (rowClear){
                         let startIndexDeleteRow = calculateIndexNumber(rowToDelete, 0);
                         clearRows(startIndexDeleteRow, 8);
+                        document.getElementById('sugar_crush').play()
                         if (!colClear){
                             clearCols(indexNumber, numberOfMatchingCandies);
                         }
@@ -401,6 +483,21 @@ function checkForMatchingCol(numberOfMatchingCandies){
     }
     return matchWasFound;
 }
+
+//extra feature for Codecool candy
+function handleCodecoolCandy(candyType) {
+    for (let i = 0; i < 8; i++) {
+        for ( let j = 0; j < 8; j++) {
+            let indexNumber = calculateIndexNumber(i, j)
+            let currentCandyType = findCandyType(cells[indexNumber])
+            if (currentCandyType === candyType) {
+                clearRows(indexNumber, 1)
+            }
+        }
+    }
+}
+
+
 
 // Move down candies
 function moveDownCandies() {

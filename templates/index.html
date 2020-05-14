@@ -12,8 +12,16 @@
     <div class="game-info-fields">
         <div class="scores">Scores:</div>
         <div class="scores" id="score-counter">0</div>
-        <div class="count-down">3000</div>
-        <div class="buttons"><button type="button" id="start-button">Start Game</button></div>
+        <div class="count-down">180</div>
+        <div class="buttons">
+            <audio id="start_game_sound" src="/static/sounds/start_game.mp3"> </audio>
+            <audio id="sweet" src="/static/sounds/sweet.wav"> </audio>
+            <audio id="delicious" src="/static/sounds/delicious.wav"> </audio>
+            <audio id="tasty" src="/static/sounds/tasty.wav"> </audio>
+            <audio id="sugar_crush" src="/static/sounds/sugar_crush.wav"> </audio>
+            <audio id="swish" src="/static/sounds/candy_land2.wav"> </audio>
+            <button onclick="document.getElementById('start_game_sound').play()" type="button" id="start-button">Start Game</button>
+        </div>
         <div class="buttons"><button type="button" id="new-game-button"><a href="{{ url_for("home") }}">New Game</a></button></div>
     </div>
     <div class="board"></div>
