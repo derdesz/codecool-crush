@@ -1,0 +1,213 @@
+body {
+    background: url("/static/images/website_background2.jpg");
+    background-size: cover;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.game-info-fields {
+    padding: 20px;
+    float: left;
+    background-color: #E6C8F3;
+    border-style: ridge;
+    border-width: 5px;
+    border-color: darksalmon;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.game-info-fields > * {
+    margin: 10px;
+}
+
+.board {
+    background-color: pink;
+    border-style: ridge;
+    border-width: 5px;
+    border-color: darksalmon;
+    width: 600px;
+    height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-top: 50px;
+    margin-right: 120px;
+    padding: 20px 10px 10px 10px;
+}
+
+.board .cell {
+    width: 70px;
+    height: 70px;
+    background-size: 70px 70px;
+    border-radius: 25px;
+}
+
+.Laci[data-subtype="0"] {
+    background: url("/static/images/Laci.png");
+    background-size: 70px 70px;
+}
+
+.Adam[data-subtype="0"] {
+    background: url("/static/images/Adam.png");
+    background-size: 70px 70px;
+}
+
+.Agi[data-subtype="0"] {
+    background: url("/static/images/Agi.png");
+    background-size: 70px 70px;
+}
+
+.Bence[data-subtype="0"] {
+    background: url("/static/images/Bence.png");
+    background-size: 70px 70px;
+}
+
+.Gabor[data-subtype="0"] {
+    background: url("/static/images/Gabor.png");
+    background-size: 70px 70px;
+}
+
+.Reka[data-subtype="0"] {
+    background: url("/static/images/Reka.png");
+    background-size: 70px 70px;
+}
+
+#start-button {
+    box-shadow: rgb(239, 220, 251) 0px 1px 0px 0px inset;
+    background: linear-gradient(rgb(173, 74, 216) 5%, rgb(188, 128, 234) 100%) rgb(223, 189, 250);
+    border-radius: 6px;
+    border: 1px solid rgb(197, 132, 243);
+    display: inline-block;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    font-family: Arial, serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: rgb(151, 82, 204) 0px 1px 0px;
+}
+
+#new-game-button {
+    box-shadow: rgb(179, 129, 164) 0px 1px 0px 0px inset;
+    background: linear-gradient(rgb(255, 10, 177) 5%, rgb(244, 163, 205) 100%) rgb(255, 91, 176);
+    border-radius: 6px;
+    border: 1px solid rgb(238, 30, 181);
+    display: inline-block;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    font-family: Arial, serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: rgb(199, 0, 103) 0px 1px 0px;
+    margin-top: 20px;
+}
+
+.scores {
+    box-shadow: rgb(179, 129, 164) 0px 1px 0px 0px inset;
+    background: linear-gradient(rgb(163, 205, 244) 5%, rgb(112, 114, 244) 100%) rgb(255, 91, 176);
+    border-radius: 6px;
+    border: 1px solid rgb(154, 114, 143);
+    display: inline-block;
+    cursor: default;
+    color: rgb(255, 255, 255);
+    font-family: Arial, serif;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 15px 15px;
+    text-decoration: none;
+    text-shadow: rgb(199, 0, 103) 0px 1px 0px;
+    text-align: center;
+}
+
+.count-down {
+    box-shadow: rgb(179, 129, 164) 0px 1px 0px 0px inset;
+    background: linear-gradient(rgb(163, 205, 244) 5%, rgb(112, 114, 244) 100%) rgb(255, 91, 176);
+    border-radius: 6px;
+    border: 1px solid rgba(161, 105, 146, 0.38);
+    display: inline-block;
+    cursor: default;
+    color: rgb(255, 255, 255);
+    font-family: Arial, serif;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: rgb(199, 0, 103) 0px 1px 0px;
+    text-align: center;
+
+}
+
+
+.Laci[data-subtype="1"] {
+    background: url("/static/images/Laci_vizszintes.png");
+    background-size: 70px 70px;
+}
+
+.Adam[data-subtype="1"] {
+    background: url("/static/images/Adam_vizszintes.png");
+    background-size: 70px 70px;
+}
+
+.Agi[data-subtype="1"] {
+    background: url("/static/images/Agi_vizszintes.png");
+    background-size: 70px 70px;
+}
+
+.Bence[data-subtype="1"] {
+    background: url("/static/images/Bence_vizszintes.png");
+    background-size: 70px 70px;
+}
+
+.Gabor[data-subtype="1"] {
+    background: url("/static/images/Gabor_vizszintes.png");
+    background-size: 70px 70px;
+}
+
+.Reka[data-subtype="1"] {
+    background: url("/static/images/Reka_vizszintes.png");
+    background-size: 70px 70px;
+}
+
+.Laci[data-subtype="2"] {
+    background: url("/static/images/Laci_fuggoleges.png");
+    background-size: 70px 70px;
+}
+
+.Adam[data-subtype="2"] {
+    background: url("/static/images/Adam_fuggoleges.png");
+    background-size: 70px 70px;
+}
+
+.Agi[data-subtype="2"] {
+    background: url("/static/images/Agi_fuggoleges.png");
+    background-size: 70px 70px;
+}
+
+.Bence[data-subtype="2"] {
+    background: url("/static/images/Bence_fuggoleges.png");
+    background-size: 70px 70px;
+}
+
+.Gabor[data-subtype="2"] {
+    background: url("/static/images/Gabor_fuggoleges.png");
+    background-size: 70px 70px;
+}
+
+.Reka[data-subtype="2"] {
+    background: url("/static/images/Reka_fuggoleges.jpg");
+    background-size: 70px 70px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
+}
