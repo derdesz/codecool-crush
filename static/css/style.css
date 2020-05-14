@@ -7,23 +7,20 @@ body {
 }
 
 .game-info-fields {
-    /*display: inline-flex;*/
+    padding: 20px;
     float: left;
-    /*margin: 500px;*/
     background-color: #E6C8F3;
-    /*margin-top: 10em;*/
     border-style: ridge;
     border-width: 5px;
     border-color: darksalmon;
     display: flex;
     flex-direction: column;
+    align-items: center;
 
 }
 
 .game-info-fields > * {
     margin: 10px;
-    /*margin-left: 50px;*/
-
 }
 
 .board {
@@ -48,35 +45,34 @@ body {
     border-radius: 25px;
 }
 
-.Laci {
+.Laci[data-subtype="0"] {
     background: url("/static/images/Laci.png");
+    background-size: 70px 70px;
 }
 
-.Adam {
+.Adam[data-subtype="0"] {
     background: url("/static/images/Adam.png");
+    background-size: 70px 70px;
 }
 
-.Agi {
+.Agi[data-subtype="0"] {
     background: url("/static/images/Agi.png");
+    background-size: 70px 70px;
 }
 
-.Bence {
+.Bence[data-subtype="0"] {
     background: url("/static/images/Bence.png");
+    background-size: 70px 70px;
 }
 
-.Gabor {
+.Gabor[data-subtype="0"] {
     background: url("/static/images/Gabor.png");
+    background-size: 70px 70px;
 }
 
-.Reka {
+.Reka[data-subtype="0"] {
     background: url("/static/images/Reka.png");
-}
-
-.scores{
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 50px;
-
+    background-size: 70px 70px;
 }
 
 #start-button {
@@ -109,64 +105,109 @@ body {
     padding: 6px 24px;
     text-decoration: none;
     text-shadow: rgb(199, 0, 103) 0px 1px 0px;
+    margin-top: 20px;
 }
 
-.Laci-horizontal {
+.scores {
+    box-shadow: rgb(179, 129, 164) 0px 1px 0px 0px inset;
+    background: linear-gradient(rgb(163, 205, 244) 5%, rgb(112, 114, 244) 100%) rgb(255, 91, 176);
+    border-radius: 6px;
+    border: 1px solid rgb(154, 114, 143);
+    display: inline-block;
+    cursor: default;
+    color: rgb(255, 255, 255);
+    font-family: Arial, serif;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 15px 15px;
+    text-decoration: none;
+    text-shadow: rgb(199, 0, 103) 0px 1px 0px;
+    text-align: center;
+}
+
+.count-down {
+    box-shadow: rgb(179, 129, 164) 0px 1px 0px 0px inset;
+    background: linear-gradient(rgb(163, 205, 244) 5%, rgb(112, 114, 244) 100%) rgb(255, 91, 176);
+    border-radius: 6px;
+    border: 1px solid rgba(161, 105, 146, 0.38);
+    display: inline-block;
+    cursor: default;
+    color: rgb(255, 255, 255);
+    font-family: Arial, serif;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: rgb(199, 0, 103) 0px 1px 0px;
+    text-align: center;
+
+}
+
+
+.Laci[data-subtype="1"] {
     background: url("/static/images/Laci_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Adam-horizontal {
+.Adam[data-subtype="1"] {
     background: url("/static/images/Adam_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Agi-horizontal {
+.Agi[data-subtype="1"] {
     background: url("/static/images/Agi_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Bence-horizontal {
+.Bence[data-subtype="1"] {
     background: url("/static/images/Bence_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Gabor-horizontal {
+.Gabor[data-subtype="1"] {
     background: url("/static/images/Gabor_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Reka-horizontal {
+.Reka[data-subtype="1"] {
     background: url("/static/images/Reka_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Laci-vertical {
+.Laci[data-subtype="2"] {
     background: url("/static/images/Laci_fuggoleges.png");
     background-size: 70px 70px;
 }
 
-.Adam-vertical {
+.Adam[data-subtype="2"] {
     background: url("/static/images/Adam_fuggoleges.png");
     background-size: 70px 70px;
 }
 
-.Agi-vertical {
+.Agi[data-subtype="2"] {
     background: url("/static/images/Agi_fuggoleges.png");
     background-size: 70px 70px;
 }
 
-.Bence-vertical {
+.Bence[data-subtype="2"] {
     background: url("/static/images/Bence_fuggoleges.png");
     background-size: 70px 70px;
 }
 
-.Gabor-vertical {
+.Gabor[data-subtype="2"] {
     background: url("/static/images/Gabor_fuggoleges.png");
     background-size: 70px 70px;
 }
 
-.Reka-vertical {
+.Reka[data-subtype="2"] {
     background: url("/static/images/Reka_fuggoleges.jpg");
     background-size: 70px 70px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
 }
