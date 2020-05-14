@@ -7,7 +7,7 @@ let allCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam', 'Codecool'];
 let cells = [];
 let scores = 0;
 let startButton = document.querySelector('#start-button');
-let startTime = 1800;
+let startTime = 180;
 let counter = undefined;
 let setIntervalForBoard = undefined;
 
@@ -63,6 +63,7 @@ function countDown() {
         startTime--;
         document.querySelector('.count-down').innerHTML = startTime
     } else {
+        document.getElementById('delicious').play();
         document.querySelector('.count-down').innerHTML = startTime;
         for (let cell of cells) {
             cell.setAttribute('draggable', false);
@@ -112,6 +113,7 @@ function dragLeave(event) {
 }
 
 function dragDrop(event) {
+    document.getElementById('swish').play();
     event.preventDefault();
     candyToReplace = this;
     let draggedCandyType = findCandyType(draggedCandy);
@@ -228,6 +230,9 @@ function clearRows(startIndex, length) {
         if (isGameStarted) {
             scores = scores + 10;
             document.getElementById('score-counter').innerText = scores;
+            if (scores % 200 === 0) {
+                document.getElementById('tasty').play();
+            }
         }
     }
 }
@@ -290,6 +295,7 @@ function checkForMatchingRow(numberOfMatchingCandies) {
 
                     if (isGameStarted && numberOfMatchingCandies == 5) {
                         clearRows(indexNumber,5);
+                        document.getElementById('sweet').play();
                         if (!candyToReplace){
                             cells[indexNumber].className = 'cell Codecool';
                             cells[indexNumber].dataset.subtype = 3;
@@ -327,6 +333,7 @@ function checkForMatchingRow(numberOfMatchingCandies) {
                         clearCols(startIndexDeleteCol, 8);
                         if (!rowClear){
                             clearRows(indexNumber, numberOfMatchingCandies);
+                            document.getElementById('sugar_crush').play();
                         }
                     }
                     // no striped candies in match
@@ -406,6 +413,7 @@ function checkForMatchingCol(numberOfMatchingCandies){
 
                     if (isGameStarted && numberOfMatchingCandies == 5) {
                         clearCols(indexNumber,5);
+                        document.getElementById('sweet').play();
                         if (!candyToReplace){
                             cells[indexNumber].className = 'cell Codecool';
                             cells[indexNumber].dataset.subtype = 3;
@@ -432,6 +440,7 @@ function checkForMatchingCol(numberOfMatchingCandies){
                     if (rowClear){
                         let startIndexDeleteRow = calculateIndexNumber(rowToDelete, 0);
                         clearRows(startIndexDeleteRow, 8);
+                        document.getElementById('sugar_crush').play()
                         if (!colClear){
                             clearCols(indexNumber, numberOfMatchingCandies);
                         }
