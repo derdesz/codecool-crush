@@ -17,7 +17,7 @@ initGame();
 function initGame() {
     startButton.addEventListener('click', startGame);
     createBoard();
-    setIntervalForBoard = window.setInterval(updateBoard, 3000);
+    setIntervalForBoard = window.setInterval(updateBoard, 2000);
     // Your game can start here, but define separate functions, don't write everything in here :)
 }
 
@@ -407,11 +407,10 @@ function moveDownCandies() {
     for (let i = width - 1; i > 0; i--) {
 
         for (let j = 0; j < width; j++) {
-            // setTimeout(function(){ }, 500);
             let indexNumber = calculateIndexNumber(i, j);
             if (cells[indexNumber].classList.contains('empty')) {
                 for (let k = i - 1; k >= 0; k--) {
-
+                    // setTimeout(function(){console.log('0') }, 2000);
                     let aboveCandyIndexNumber = calculateIndexNumber(k, j);
                     if (!cells[aboveCandyIndexNumber].classList.contains('empty')) {
                         cells[indexNumber].classList.remove('empty');
@@ -428,6 +427,7 @@ function moveDownCandies() {
                 }
             }
         }
+
     }
 }
 

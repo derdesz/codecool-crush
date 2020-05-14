@@ -203,3 +203,11 @@ body {
     background: url("/static/images/Reka_fuggoleges.jpg");
     background-size: 70px 70px;
 }
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
+}
