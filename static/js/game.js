@@ -1,7 +1,5 @@
 let board = document.querySelector(".board");
 let width = 8;
-//let basicCandies = ["url('/static/images/Adam.png')", "url('/static/images/Agi.png')", "url('/static/images/Bence.png')",
-//    "url('/static/images/Gabor.png')", "url('/static/images/Laci.png')", "url('/static/images/Reka.png')" ]
 let isGameStarted = false;
 let basicCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam'];
 let allCandies = basicCandies;
@@ -91,7 +89,8 @@ function dragDrop(event) {
         draggedCandy.classList.remove(draggedCandyType);
         draggedCandy.classList.add(candyToReplaceType);
 
-        if (checkRowsOfThree() || checkColsOfThree()){        //add the others!!
+        if (checkForMatchingCol(4) || checkForMatchingRow(4) || checkForMatchingRow(3)
+            || checkForMatchingCol(3)){        //add the others!!
         } else {
             candyToReplace.classList.add(candyToReplaceType);
             candyToReplace.classList.remove(draggedCandyType);
@@ -151,35 +150,7 @@ function calculateIndexNumber(row, col) {
     return row * width + col
 }
 
-//Check for matching candies
-function checkRowsOfThree() {
-    let matchWasFound = false;
-    for (let i = 0; i < width; i++) {
-        for (let j = 0; j < width - 2; j++) {
-            let indexNumber = calculateIndexNumber(i, j);
-            if (!cells[indexNumber].classList.contains('empty')) {
-                let currentCandyType = findCandyType(cells[indexNumber]);
-                let rowOfThree = [cells[indexNumber], cells[indexNumber + 1], cells[indexNumber + 2]];
-
-                function tester(cell) {
-                    let whichCandyType = findCandyType(cell);
-                    if (whichCandyType === currentCandyType) {
-                        return true
-                    }
-                }
-
-                let isMatch = rowOfThree.every(tester);
-
-                if (isMatch) {
-                    clearRows(indexNumber, 3, currentCandyType);
-                    matchWasFound = true;
-                }
-            }
-        }
-    }
-    return matchWasFound;
-}
-
+//Clear matching candies
 function clearRows(startIndex, length, candyTypeToClear) {
     for (let i = startIndex; i < startIndex + length; i++) {
         cells[i].classList.add('empty');
@@ -192,7 +163,7 @@ function clearRows(startIndex, length, candyTypeToClear) {
 }
 
 function clearCols(startIndex, length, candyTypeToClear) {
-for (let i = startIndex; i <= startIndex + width * (length - 1); i = i + width) {
+    for (let i = startIndex; i <= startIndex + width * (length - 1); i = i + width) {
         cells[i].classList.add('empty');
         cells[i].classList.remove(candyTypeToClear);
         if (isGameStarted) {
@@ -202,96 +173,133 @@ for (let i = startIndex; i <= startIndex + width * (length - 1); i = i + width) 
     }
 }
 
-
-    function checkColsOfThree() {
+//Check for matching rows/cols
+function checkForMatchingRow(numberOfMatchingCandies) {
     let matchWasFound = false;
-        for (let i = 0; i < width - 2; i++) {
-            for (let j = 0; j < width; j++) {
-                let indexNumber = calculateIndexNumber(i, j);
-                if (!cells[indexNumber].classList.contains('empty')) {
-                    let currentCandyType = findCandyType(cells[indexNumber]);
-                    let colOfThree = [cells[indexNumber], cells[indexNumber + width], cells[indexNumber + width * 2]];
+    for (let i = 0; i < width; i++) {
+        for (let j = 0; j < width - numberOfMatchingCandies + 1; j++) {
+            let indexNumber = calculateIndexNumber(i, j);
+            if (!cells[indexNumber].classList.contains('empty')) {
+                let currentCandyType = findCandyType(cells[indexNumber]);
+                let matchingRow = [];
+                for (let k = 0; k < numberOfMatchingCandies; k++) {
+                    matchingRow.push(cells[indexNumber + k])
+                }
 
-                    function tester(cell) {
-                        let whichCandyType = findCandyType(cell);
-                        if (whichCandyType === currentCandyType) {
-                            return true;
-                        }
+                function tester(cell) {
+                    let whichCandyType = findCandyType(cell);
+                    if (whichCandyType === currentCandyType) {
+                        return true
                     }
+                }
 
-                    let isMatch = colOfThree.every(tester);
-                    if (isMatch) {
-                        clearCols(indexNumber, 3, currentCandyType);
-                        matchWasFound = true;
-                    }
+                let isMatch = matchingRow.every(tester);
+                if (isMatch) {
+                    clearRows(indexNumber, numberOfMatchingCandies, currentCandyType);
+                    matchWasFound = true;
                 }
             }
         }
-        return matchWasFound;
     }
+    return matchWasFound;
+}
+
+function checkForMatchingCol(numberOfMatchingCandies){
+    let matchWasFound = false;
+    for (let i = 0; i < width - numberOfMatchingCandies + 1; i++) {
+        for (let j = 0; j < width; j++) {
+            let indexNumber = calculateIndexNumber(i, j);
+            if (!cells[indexNumber].classList.contains('empty')) {
+                let currentCandyType = findCandyType(cells[indexNumber]);
+                let matchingCol = [];
+                for (let k = 0; k < numberOfMatchingCandies; k++){
+                    matchingCol.push(cells[indexNumber + k * width]);
+                }
+
+                function tester(cell) {
+                    let whichCandyType = findCandyType(cell);
+                    if (whichCandyType === currentCandyType) {
+                        return true;
+                    }
+                }
+
+                let isMatch = matchingCol.every(tester);
+                if (isMatch) {
+                    clearCols(indexNumber, numberOfMatchingCandies, currentCandyType);
+                    matchWasFound = true;
+                }
+            }
+        }
+    }
+    return matchWasFound;
+}
 
 // Move down candies
-    function moveDownCandies() {
-        for (let i = width - 1; i > 0; i--) {
-            for (let j = 0; j < width; j++) {
-                let indexNumber = calculateIndexNumber(i, j);
-                if (cells[indexNumber].classList.contains('empty')) {
-                    for (let k = i - 1; k >= 0; k--) {
-                        let aboveCandyIndexNumber = calculateIndexNumber(k, j);
-                        if (!cells[aboveCandyIndexNumber].classList.contains('empty')) {
-                            cells[indexNumber].classList.remove('empty');
-                            let aboveCandyType = findCandyType(cells[aboveCandyIndexNumber]);
-                            cells[indexNumber].classList.add(aboveCandyType);
+function moveDownCandies() {
+    for (let i = width - 1; i > 0; i--) {
+        for (let j = 0; j < width; j++) {
+            let indexNumber = calculateIndexNumber(i, j);
+            if (cells[indexNumber].classList.contains('empty')) {
+                for (let k = i - 1; k >= 0; k--) {
+                    let aboveCandyIndexNumber = calculateIndexNumber(k, j);
+                    if (!cells[aboveCandyIndexNumber].classList.contains('empty')) {
+                        cells[indexNumber].classList.remove('empty');
+                        let aboveCandyType = findCandyType(cells[aboveCandyIndexNumber]);
+                        cells[indexNumber].classList.add(aboveCandyType);
 
-                            cells[aboveCandyIndexNumber].classList.add('empty');
-                            cells[aboveCandyIndexNumber].classList.remove(aboveCandyType);
-                            break
-                        }
+                        cells[aboveCandyIndexNumber].classList.add('empty');
+                        cells[aboveCandyIndexNumber].classList.remove(aboveCandyType);
+                        break
                     }
                 }
             }
         }
     }
+}
 
-    function generateNewCandies() {
-        for (let i = cells.length - 1; i >= 0; i--) {
-            if (cells[i].classList.contains('empty')) {
-                let randomCandy = createRandomCandy();
-                let randomCandyType = basicCandies[randomCandy];
-                cells[i].classList.remove('empty');
-                cells[i].classList.add(randomCandyType)
-            }
+//Generate new candies
+function generateNewCandies() {
+    for (let i = cells.length - 1; i >= 0; i--) {
+        if (cells[i].classList.contains('empty')) {
+            let randomCandy = createRandomCandy();
+            let randomCandyType = basicCandies[randomCandy];
+            cells[i].classList.remove('empty');
+            cells[i].classList.add(randomCandyType)
         }
     }
+}
 
-    function startGame() {
-        isGameStarted = true;
-        addDraggingFunctionForCells();
+//Other game functions
+function startGame() {
+    isGameStarted = true;
+    addDraggingFunctionForCells();
+    for (let cell of cells) {
+        cell.setAttribute('draggable', true);
+    }
+    counter = window.setInterval(countDown, 1000)
+}
+
+function countDown() {
+    if (startTime > 0) {
+        startTime--;
+        document.querySelector('.count-down').innerHTML = startTime
+    } else {
+        document.querySelector('.count-down').innerHTML = startTime;
         for (let cell of cells) {
-            cell.setAttribute('draggable', true);
+            cell.setAttribute('draggable', false);
         }
-        counter = window.setInterval(countDown, 1000)
+        clearInterval(counter);
+        clearInterval(setIntervalForBoard);
+        alert(scores);
     }
-
-    function countDown() {
-        if (startTime > 0) {
-            startTime--;
-            document.querySelector('.count-down').innerHTML = startTime
-        } else {
-            document.querySelector('.count-down').innerHTML = startTime;
-            for (let cell of cells) {
-                cell.setAttribute('draggable', false);
-            }
-            clearInterval(counter);
-            clearInterval(setIntervalForBoard);
-            alert(scores);
-        }
-    }
+}
 
 
-    function updateBoard() {
-        checkRowsOfThree();
-        checkColsOfThree();
-        moveDownCandies();
-        generateNewCandies();
-    }
+function updateBoard() {
+    checkForMatchingRow(4);
+    checkForMatchingCol(4);
+    checkForMatchingRow(3);
+    checkForMatchingCol(3);
+    moveDownCandies();
+    generateNewCandies();
+}
