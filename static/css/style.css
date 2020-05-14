@@ -48,28 +48,34 @@ body {
     border-radius: 25px;
 }
 
-.Laci {
+.Laci[data-subtype="0"] {
     background: url("/static/images/Laci.png");
+    background-size: 70px 70px;
 }
 
-.Adam {
+.Adam[data-subtype="0"] {
     background: url("/static/images/Adam.png");
+    background-size: 70px 70px;
 }
 
-.Agi {
+.Agi[data-subtype="0"] {
     background: url("/static/images/Agi.png");
+    background-size: 70px 70px;
 }
 
-.Bence {
+.Bence[data-subtype="0"] {
     background: url("/static/images/Bence.png");
+    background-size: 70px 70px;
 }
 
-.Gabor {
+.Gabor[data-subtype="0"] {
     background: url("/static/images/Gabor.png");
+    background-size: 70px 70px;
 }
 
-.Reka {
+.Reka[data-subtype="0"] {
     background: url("/static/images/Reka.png");
+    background-size: 70px 70px;
 }
 
 .scores{
@@ -111,62 +117,62 @@ body {
     text-shadow: rgb(199, 0, 103) 0px 1px 0px;
 }
 
-.Laci-horizontal {
+.Laci[data-subtype="1"] {
     background: url("/static/images/Laci_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Adam-horizontal {
+.Adam[data-subtype="1"] {
     background: url("/static/images/Adam_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Agi-horizontal {
+.Agi[data-subtype="1"] {
     background: url("/static/images/Agi_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Bence-horizontal {
+.Bence[data-subtype="1"] {
     background: url("/static/images/Bence_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Gabor-horizontal {
+.Gabor[data-subtype="1"] {
     background: url("/static/images/Gabor_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Reka-horizontal {
+.Reka[data-subtype="1"] {
     background: url("/static/images/Reka_vizszintes.png");
     background-size: 70px 70px;
 }
 
-.Laci-vertical {
+.Laci[data-subtype="2"] {
     background: url("/static/images/Laci_fuggoleges.png");
     background-size: 70px 70px;
 }
 
-.Adam-vertical {
+.Adam[data-subtype="2"] {
     background: url("/static/images/Adam_fuggoleges.png");
     background-size: 70px 70px;
 }
 
-.Agi-vertical {
+.Agi[data-subtype="2"] {
     background: url("/static/images/Agi_fuggoleges.png");
     background-size: 70px 70px;
 }
 
-.Bence-vertical {
+.Bence[data-subtype="2"] {
     background: url("/static/images/Bence_fuggoleges.png");
     background-size: 70px 70px;
 }
 
-.Gabor-vertical {
+.Gabor[data-subtype="2"] {
     background: url("/static/images/Gabor_fuggoleges.png");
     background-size: 70px 70px;
 }
 
-.Reka-vertical {
+.Reka[data-subtype="2"] {
     background: url("/static/images/Reka_fuggoleges.jpg");
     background-size: 70px 70px;
 }
