@@ -7,7 +7,7 @@ let allCandies = ['Laci', 'Gabor', 'Agi', 'Bence', 'Reka', 'Adam', 'Codecool'];
 let cells = [];
 let scores = 0;
 let startButton = document.querySelector('#start-button');
-let startTime = 10;
+let startTime = 3000;
 let counter = undefined;
 let setIntervalForBoard = undefined;
 
@@ -207,8 +207,6 @@ function clearRows(startIndex, length) {
     for (let i = startIndex; i < startIndex + length; i++) {
         cells[i].className = "cell empty";
         cells[i].dataset.subtype = 0;
-        // cells[i].classList.add('empty');
-        // cells[i].classList.remove(candyTypeToClear);
         if (isGameStarted) {
             scores = scores + 10;
             document.getElementById('score-counter').innerText = scores;
@@ -220,8 +218,6 @@ function clearCols(startIndex, length) {
     for (let i = startIndex; i <= startIndex + width * (length - 1); i = i + width) {
         cells[i].className = "cell empty";
         cells[i].dataset.subtype = 0;
-        // cells[i].classList.add('empty');
-        // cells[i].classList.remove(candyTypeToClear);
         if (isGameStarted) {
             scores = scores + 10;
             document.getElementById('score-counter').innerText = scores;
@@ -270,7 +266,7 @@ function checkForMatchingRow(numberOfMatchingCandies) {
                             rowToDelete = parseInt(matchingCandy.dataset.row);
                         } else if (matchingCandySubtype == 2){
                             colClear = true;
-                            colToDelete =parseInt(matchingCandy.dataset.col);
+                            colToDelete = parseInt(matchingCandy.dataset.col);
                         }
                     }
 
@@ -281,6 +277,9 @@ function checkForMatchingRow(numberOfMatchingCandies) {
                     if (colClear){
                         let startIndexDeleteCol = calculateIndexNumber(0, colToDelete);
                         clearCols(startIndexDeleteCol, 8);
+                        if (!rowClear){
+                            clearRows(indexNumber, numberOfMatchingCandies);
+                        }
                     }
                     if (!rowClear && !colClear){
                         clearRows(indexNumber, numberOfMatchingCandies);
@@ -288,7 +287,7 @@ function checkForMatchingRow(numberOfMatchingCandies) {
                             cells[indexNumber].className = `cell ${currentCandyType}`;
                             cells[indexNumber].dataset.subtype = 1;
                         } else {
-                            //in case of matches of three
+                            //in case of matches of three nothing else happens
                         }
                     }
                 }
@@ -318,15 +317,50 @@ function checkForMatchingCol(numberOfMatchingCandies){
                 }
 
                 let isMatch = matchingCol.every(tester);
+                //if match was found
                 if (isMatch) {
+                    //check for striped candies in match
                     matchWasFound = true;
-                    clearCols(indexNumber, numberOfMatchingCandies);
-                    if (isGameStarted && numberOfMatchingCandies==4){
-                        cells[indexNumber].className = `cell ${currentCandyType}`;
-                        cells[indexNumber].dataset.subtype = 2;
-                    } else {
-                        //in case of matches of three
+                    let rowClear = false;
+                    let colClear = false;
+                    let rowToDelete = undefined;
+                    let colToDelete = undefined;
+
+                    for (let matchingCandy of matchingCol){
+                        let matchingCandySubtype = parseInt(matchingCandy.dataset.subtype);
+                        if (matchingCandySubtype == 0){
+                            //do nothing if basic candy
+                        } else if (matchingCandySubtype == 1){
+                            rowClear = true;
+                            rowToDelete = parseInt(matchingCandy.dataset.row)
+                        } else if (matchingCandySubtype == 2){
+                            colClear = true;
+                            colToDelete = parseInt(matchingCandy.dataset.col)
+                        }
                     }
+
+                    if (rowClear){
+                        let startIndexDeleteRow = calculateIndexNumber(rowToDelete, 0);
+                        clearRows(startIndexDeleteRow, 8);
+                        if (!colClear){
+                            clearCols(indexNumber, numberOfMatchingCandies);
+                        }
+                    }
+                    if (colClear){
+                        let startIndexDeleteCol = calculateIndexNumber(0, colToDelete);
+                        clearCols(startIndexDeleteCol, 8);
+                    }
+                    if (!rowClear && !colClear){
+                        clearCols(indexNumber, numberOfMatchingCandies);
+                        if (isGameStarted && numberOfMatchingCandies==4){
+                            cells[indexNumber].className = `cell ${currentCandyType}`;
+                            cells[indexNumber].dataset.subtype = 2;
+                        } else {
+                            //in case of matches of three nothing else happens
+                        }
+                    }
+
+
 
                 }
             }
